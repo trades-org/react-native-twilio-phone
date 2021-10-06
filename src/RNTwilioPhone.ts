@@ -93,22 +93,21 @@ class RNTwilioPhone {
     };
   }
 
-  static handleBackgroundState() {
+  static handleBackgroundState(callback: () => void) {
     if (Platform.OS !== 'android') {
       return;
     }
 
-    messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+    messaging().setBackgroundMessageHandler(async (remoteMessage: any) => {
       if (!remoteMessage.data) {
         return;
       }
 
-      RNCallKeep.registerPhoneAccount();
-      RNCallKeep.registerAndroidEvents();
-      RNCallKeep.setAvailable(true);
+      console.log('Running background message handler');
 
-      RNTwilioPhone.listenTwilioPhone();
-      RNTwilioPhone.listenCallKeep();
+      console.log({ remoteMessage });
+
+      callback();
 
       TwilioPhone.handleMessage(remoteMessage.data);
     });
