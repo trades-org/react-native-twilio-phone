@@ -99,7 +99,7 @@ class RNTwilioPhone {
     }
 
     messaging().setBackgroundMessageHandler(async (remoteMessage: any) => {
-      if (!remoteMessage.data) {
+      if (!remoteMessage?.data?.twi_call_sid) {
         return;
       }
 
